@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 48 48%27%3E%3Crect width=%2748%27 height=%2748%27 fill=%27%231C1D1F%27/%3E%3Crect x=%276%27 y=%279%27 width=%2736%27 height=%276%27 fill=%27%23F2EFE8%27/%3E%3Crect x=%2710%27 y=%2715%27 width=%276%27 height=%2724%27 fill=%27%23F2EFE8%27/%3E%3Crect x=%2732%27 y=%2715%27 width=%276%27 height=%2724%27 fill=%27%23F2EFE8%27/%3E%3Crect x=%2716%27 y=%2725%27 width=%2716%27 height=%275%27 fill=%27%23E2531A%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Tramia · Integração de sistemas"><meta property="og:description" content="Seus sistemas não conversam. Sua equipe vira a ponte. Diagnóstico gratuito."><meta property="og:image" content="img/hero.webp"><meta name="theme-color" content="#F2EFE8">
+<title>Tramia</title>
+<meta name="description" content="A Tramia integra os sistemas que sua empresa já usa e elimina a redigitação entre eles. Diagnóstico gratuito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: planta técnica — container de 1200px com fios verticais à vista, seções separadas por régua com rótulo mono; uma faixa grafite no CTA final. Identidade única (clara) por decisão de marca. */
+:root{
+  --paper:#F2EFE8;      /* fundo */
+  --paper-2:#E9E5DB;    /* superfície recuada */
+  --ink:#1C1D1F;        /* grafite */
+  --ink-2:#4A4B4D;      /* texto secundário (7.9:1 no papel) */
+  --rule:#CFCAC0;       /* fios */
+  --signal:#E2531A;     /* laranja sinal: ação e caminho do dado */
+  --signal-ink:#B8410F; /* laranja para texto pequeno no papel (4.8:1) */
+  --on-ink:#F2EFE8;
+  --on-ink-2:#A9A79F;
+  --font-display:'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --maxw:1200px;
+  --gut:max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-display);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-0.02em}
+p{margin:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r)}
+.frame{border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+.mono{font-family:var(--font-mono);font-size:.8125rem;letter-spacing:.06em;text-transform:uppercase}
+.muted{color:var(--ink-2)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- topo ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--ink)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:30px;height:30px;flex:none}
+.wordmark{font-weight:600;font-size:1.625rem;letter-spacing:-0.02em;line-height:1}
+.wordmark span{color:var(--signal)}
+.nav{display:flex;align-items:center;gap:28px}
+.nav a.link{font-family:var(--font-mono);font-size:.8125rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink-2)}
+.nav a.link:hover{color:var(--ink)}
+@media (max-width:820px){.nav a.link{display:none}}
+
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 22px;border:1px solid var(--ink);font-family:var(--font-display);font-size:1.1875rem;font-weight:700;letter-spacing:-0.005em;text-decoration:none;cursor:pointer;transition:transform .15s ease, background-color .15s ease}
+.btn-primary{background:var(--signal);color:var(--ink)}
+.btn-primary:hover{background:#EA6430}
+.btn-primary:active{transform:translateY(1px)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--paper-2)}
+.btn .arrow{font-family:var(--font-mono);font-weight:500}
+.btn-sm{min-height:44px;font-size:1rem;padding:0 16px}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(40px,7vw,88px) 0}
+.eyebrow{display:flex;flex-wrap:wrap;gap:8px 20px;color:var(--ink-2)}
+.eyebrow b{color:var(--signal-ink);font-weight:500}
+.hero h1{margin-top:22px;font-size:clamp(2.5rem,6.6vw,5.4rem);line-height:.98;font-weight:700;font-stretch:92%;letter-spacing:-0.035em;max-width:15ch}
+.hero h1 em{font-style:normal;color:var(--signal)}
+.hero-row{margin-top:32px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px 48px;align-items:end}
+.hero-row p{font-size:clamp(1.125rem,1.7vw,1.3125rem);line-height:1.5;max-width:34ch;color:var(--ink)}
+.cta-group{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
+.assure{margin-top:20px;display:flex;flex-wrap:wrap;gap:6px 22px;justify-content:flex-end;color:var(--ink-2)}
+.assure span::before{content:"";display:inline-block;width:6px;height:6px;background:var(--signal);margin-right:8px;vertical-align:middle}
+@media (max-width:820px){.hero-row{grid-template-columns:1fr}.cta-group,.assure{justify-content:flex-start}}
+.fig{margin:clamp(40px,6vw,72px) 0 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.fig img{width:100%;aspect-ratio:1600/900;object-fit:cover;background:var(--paper)}
+.fig figcaption{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 0;border-top:1px solid var(--rule);color:var(--ink-2)}
+@media (max-width:640px){.fig img{aspect-ratio:1200/675}}
+
+/* ---------- seções ---------- */
+.section{padding-block:clamp(56px,8vw,112px)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:16px 48px;align-items:start;border-top:1px solid var(--ink);padding-top:18px}
+.sec-head .mono{color:var(--ink-2)}
+.sec-head h2{font-size:clamp(1.875rem,3.6vw,2.875rem);line-height:1.06;font-weight:700;font-stretch:95%}
+.sec-head p{margin-top:16px;max-width:56ch;color:var(--ink-2);font-size:1.0625rem}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr}}
+.sec-body{margin-top:clamp(32px,5vw,56px)}
+
+/* problema */
+.symptoms{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 48px}
+.symptom{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 14px;padding:22px 0;border-top:1px solid var(--rule)}
+.symptom .mk{width:10px;height:10px;margin-top:9px;border:1.5px solid var(--ink)}
+.symptom h3{font-size:1.1875rem;font-weight:600;letter-spacing:-0.01em}
+.symptom p{grid-column:2;color:var(--ink-2)}
+@media (max-width:820px){.symptoms{grid-template-columns:1fr}}
+
+.calc{margin-top:clamp(40px,5vw,64px);background:var(--paper-2);border:1px solid var(--ink);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.calc-in{padding:clamp(20px,3vw,36px);display:grid;gap:22px;align-content:start}
+.calc-in .mono{color:var(--ink-2)}
+.field-r{display:grid;gap:8px}
+.field-r label{display:flex;justify-content:space-between;gap:12px;font-weight:600;font-size:1rem}
+.field-r output{font-family:var(--font-mono);font-weight:500;color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--signal);height:28px;margin:0}
+.calc-out{background:var(--ink);color:var(--on-ink);padding:clamp(20px,3vw,36px);display:grid;gap:22px;align-content:space-between}
+.calc-out .mono{color:var(--on-ink-2)}
+.big{font-size:clamp(3rem,7vw,5.25rem);font-weight:700;font-stretch:88%;letter-spacing:-0.04em;line-height:.95}
+.big small{font-size:.32em;font-weight:600;letter-spacing:0;margin-left:8px;color:var(--on-ink-2);font-stretch:100%}
+.calc-rows{display:grid;gap:0;border-top:1px solid #3A3B3E}
+.calc-rows div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #3A3B3E}
+.calc-rows dd{margin:0;font-family:var(--font-mono);font-weight:500}
+.calc-rows dt{color:var(--on-ink-2)}
+.calc-note{font-size:.875rem;color:var(--on-ink-2)}
+@media (max-width:820px){.calc{grid-template-columns:1fr}}
+
+/* método */
+.steps{position:relative;display:grid;gap:0}
+.step{position:relative;display:grid;grid-template-columns:72px minmax(0,1fr) minmax(0,1.15fr);gap:20px 40px;padding:36px 0;border-top:1px solid var(--rule)}
+.step:first-child{border-top:0;padding-top:0}
+.rail{position:absolute;left:20px;top:8px;bottom:0;width:2px;background:var(--signal)}
+.rail::after{content:"";position:absolute;left:-4px;top:0;width:10px;height:10px;background:var(--signal);animation:flow 4.5s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes flow{0%{top:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:calc(100% - 10px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.rail::after{animation:none;opacity:0}}
+.num{position:relative;z-index:1;width:42px;height:42px;display:grid;place-items:center;background:var(--paper);border:1.5px solid var(--ink);font-family:var(--font-mono);font-weight:500;font-size:.9375rem}
+.step h3{font-size:clamp(1.5rem,2.4vw,1.875rem);font-weight:700;font-stretch:95%}
+.step .lead{margin-top:10px;color:var(--ink)}
+.step ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.step li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;color:var(--ink-2)}
+.step li::before{content:"→";font-family:var(--font-mono);color:var(--signal-ink)}
+.step .tag{display:inline-block;margin-top:16px;padding:4px 8px;border:1px solid var(--ink);font-family:var(--font-mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase}
+.step .tag.free{background:var(--signal);border-color:var(--signal)}
+.step-fig{border:1px solid var(--rule);background:var(--paper);align-self:start}
+.step-fig img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.schema{aspect-ratio:16/9;display:grid;place-items:center;padding:20px}
+.schema svg{width:100%;height:100%}
+@media (max-width:900px){.step{grid-template-columns:52px minmax(0,1fr)}.step-fig{grid-column:2}.rail{left:20px}}
+
+/* entregáveis: 2×2 com respiro */
+.deliver{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border-top:1px solid var(--ink)}
+.deliver div{padding:clamp(32px,5vw,64px) clamp(0px,4vw,56px) clamp(32px,5vw,64px) 0;border-bottom:1px solid var(--rule);display:grid;gap:14px;align-content:start}
+.deliver div:nth-child(odd){border-right:1px solid var(--rule)}
+.deliver div:nth-child(even){padding-left:clamp(24px,4vw,56px)}
+.deliver .mono{color:var(--signal-ink)}
+.deliver h3{font-size:clamp(1.5rem,2.4vw,2rem);font-weight:700;font-stretch:95%;letter-spacing:-0.02em}
+.deliver p{color:var(--ink-2);font-size:1.0625rem;max-width:34ch}
+@media (max-width:640px){.deliver{grid-template-columns:1fr}.deliver div:nth-child(odd){border-right:0}.deliver div:nth-child(even){padding-left:0}}
+
+/* hero */
+.punch{font-size:clamp(1.25rem,2.1vw,1.625rem)!important;font-weight:600;letter-spacing:-0.015em;line-height:1.35!important;max-width:24ch!important}
+kbd{display:inline-block;font-family:var(--font-mono);font-size:.78em;font-weight:500;padding:2px 8px 3px;margin-right:6px;border:1px solid var(--ink);border-bottom-width:3px;background:var(--paper-2);vertical-align:.08em;letter-spacing:0}
+.assure{margin-top:14px!important;font-size:.875rem!important;color:var(--ink-2)!important;text-align:right;max-width:none!important}
+@media (max-width:820px){.assure{text-align:left}}
+.hero{padding-bottom:0}
+.hero-line{position:relative;margin-top:clamp(48px,7vw,88px);height:12px;border-bottom:1px solid var(--ink);display:flex;justify-content:space-between}
+.hero-line i{width:10px;height:10px;background:var(--ink);transform:translateY(6px)}
+.hero-line i:nth-child(3){background:var(--signal)}
+.hero-line::after{content:"";position:absolute;bottom:-3px;left:0;width:48px;height:5px;background:var(--signal);animation:slide 6s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes slide{0%{left:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:calc(100% - 48px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.hero-line::after{animation:none;opacity:0}}
+
+/* problema: narrativa com palco fixo */
+.story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px)}
+.stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);align-self:start;border:1px solid var(--ink);background:var(--paper-2);padding:20px;display:grid;gap:16px}
+.stage-top{display:flex;justify-content:space-between;color:var(--ink-2)}
+.stage-top b{color:var(--ink);font-weight:500}
+.scenes{position:relative;aspect-ratio:320/220}
+.scene{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .45s ease}
+.scene.on{opacity:1}
+.stage-bar{height:3px;background:var(--rule)}
+.stage-bar span{display:block;height:100%;width:25%;background:var(--signal);transition:width .45s ease}
+.scene .draw{stroke-dashoffset:0}
+.scene.on .draw{animation:dash 1.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-20}}
+.scene.on .pop{animation:pop .6s cubic-bezier(.3,1.4,.5,1) both;transform-box:fill-box;transform-origin:center}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.beats{list-style:none;margin:0;padding:0;display:grid}
+.beat{min-height:min(62vh,560px);display:grid;align-content:center;gap:12px;padding:32px 0;border-top:1px solid var(--rule);transition:color .3s ease}
+.beat:first-child{border-top:0;padding-top:0;align-content:start;min-height:min(46vh,420px)}
+.beat-n{width:40px;height:40px;display:grid;place-items:center;border:1.5px solid var(--ink);background:var(--paper);transition:background-color .3s ease}
+.beat h3{font-size:clamp(1.5rem,2.6vw,2.125rem);line-height:1.1;font-weight:700;font-stretch:95%;letter-spacing:-0.02em;color:var(--ink-2);transition:color .3s ease}
+.beat p{color:var(--ink-2);max-width:40ch;font-size:1.0625rem}
+.beat .where{color:var(--ink-2)}
+.beat.on h3{color:var(--ink)}
+.beat.on .beat-n{background:var(--signal);border-color:var(--signal)}
+.beat.on .where{color:var(--signal-ink)}
+.beat-art{display:none}
+@media (max-width:820px){
+  .story{grid-template-columns:1fr}
+  .stage{display:none}
+  .beat,.beat:first-child{min-height:0;padding:28px 0;align-content:start}
+  .beat:first-child{padding-top:0}
+  .beat h3{color:var(--ink)}
+  .beat-art{display:block;border:1px solid var(--ink);background:var(--paper-2);padding:12px;margin-top:6px}
+  .beat-art svg{width:100%;height:auto;display:block}
+  .beat-art .scene{position:static;opacity:1}
+}
+@media (prefers-reduced-motion:reduce){.scene,.stage-bar span{transition:none}.scene.on .draw,.scene.on .pop{animation:none}}
+
+/* comparativo em destaque */
+.why-head{grid-template-areas:"lbl txt" "art txt"}
+.why-head>.mono{grid-area:lbl}.why-head>div{grid-area:txt}
+.why-art{grid-area:art;margin:8px 0 0;border:1px solid var(--rule);background:var(--paper);max-width:420px}
+.why-art img{width:100%;aspect-ratio:16/9;object-fit:cover;opacity:.92}
+@media (max-width:820px){.why-head{grid-template-areas:"lbl" "txt" "art"}}
+.vs{min-width:760px;border-collapse:separate;border-spacing:0}
+.vs th,.vs td{padding:18px 20px;border-bottom:1px solid var(--rule)}
+.vs thead th{vertical-align:bottom;padding-top:24px}
+.vs td{color:var(--ink-2)}
+.vs td i{display:inline-block;width:18px;height:18px;margin-right:10px;vertical-align:-3px;position:relative;flex:none}
+.vs i.no::before,.vs i.no::after{content:"";position:absolute;left:8px;top:2px;width:2px;height:14px;background:#8E8B83;transform:rotate(45deg)}
+.vs i.no::after{transform:rotate(-45deg)}
+.vs i.mid::before{content:"";position:absolute;left:3px;top:8px;width:12px;height:2px;background:#8E8B83}
+.vs i.ok::before,.vs i.ok-dim::before{content:"";position:absolute;left:4px;top:2px;width:6px;height:11px;border-right:2.5px solid var(--signal);border-bottom:2.5px solid var(--signal);transform:rotate(40deg)}
+.vs i.ok-dim::before{border-color:#8E8B83}
+.vs .us{background:var(--ink);color:var(--on-ink);border-bottom-color:#3A3B3E;width:30%;font-weight:500}
+.vs thead .us{border-top:5px solid var(--signal);padding-top:28px}
+.us-tag{display:block;color:var(--signal);font-size:.75rem;margin-bottom:8px}
+.us-name{display:block;font-family:var(--font-display);font-size:1.375rem;font-weight:700;letter-spacing:-0.015em;text-transform:none;color:var(--on-ink)}
+.us-name b{color:var(--signal)}
+.vs tr.foot th,.vs tr.foot td{border-bottom:0}
+.vs tr.foot td.us{padding-bottom:28px}
+.vs tbody tr:not(.foot):hover td:not(.us){color:var(--ink)}
+
+/* comparativo */
+.table-box{overflow-x:auto;border-top:1px solid var(--ink)}
+table{width:100%;min-width:680px;border-collapse:collapse}
+th,td{text-align:left;vertical-align:top;padding:16px 18px 16px 0;border-bottom:1px solid var(--rule);font-size:1rem}
+thead th{font-family:var(--font-mono);font-size:.8125rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding-top:14px}
+tbody th{font-weight:600;width:22%}
+td{color:var(--ink-2)}
+.col-us{background:var(--paper-2);padding-left:18px;color:var(--ink)}
+thead .col-us{color:var(--ink);border-top:3px solid var(--signal)}
+
+/* FAQ */
+.faq{border-top:1px solid var(--ink)}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) 28px;gap:16px;align-items:center;padding:20px 0;font-size:1.1875rem;font-weight:600;letter-spacing:-0.01em;min-height:44px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--font-mono);font-weight:400;font-size:1.5rem;text-align:center;color:var(--signal-ink)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{padding:0 44px 22px 0;max-width:68ch;color:var(--ink-2)}
+
+/* CTA final */
+.final{background:var(--ink);color:var(--on-ink);position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;background:url("img/padrao.webp") center/cover no-repeat;opacity:.09;filter:invert(1);pointer-events:none}
+.final .wrap{position:relative;padding-block:clamp(56px,8vw,112px)}
+.final-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px}
+.final h2{font-size:clamp(2rem,4.4vw,3.5rem);line-height:1.02;font-weight:700;font-stretch:92%;letter-spacing:-0.03em}
+.final h2 em{font-style:normal;color:var(--signal)}
+.final .mono{color:var(--on-ink-2)}
+.next{margin:32px 0 0;padding:0;list-style:none;display:grid;gap:0;border-top:1px solid #3A3B3E}
+.next li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid #3A3B3E}
+.next .n{font-family:var(--font-mono);color:var(--signal)}
+.next p{color:var(--on-ink-2);font-size:.9375rem;margin-top:2px}
+.direct{margin-top:28px;display:grid;gap:6px}
+.direct a{color:var(--on-ink);text-underline-offset:4px}
+@media (max-width:900px){.final-grid{grid-template-columns:1fr}}
+
+form.lead{background:var(--paper);color:var(--ink);padding:clamp(20px,3vw,36px);display:grid;gap:18px;border:1px solid var(--paper)}
+.f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:560px){.f2{grid-template-columns:1fr}}
+.fld{display:grid;gap:6px;min-width:0}
+.fld label{font-weight:600;font-size:.9375rem}
+.fld label i{font-style:normal;font-weight:400;color:var(--ink-2)}
+.fld input,.fld textarea{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:#FBFAF6;border:1px solid #8E8B83;border-radius:0;padding:12px 12px;min-height:48px}
+.fld textarea{min-height:104px;resize:vertical}
+.fld input:focus,.fld textarea:focus{outline:2px solid var(--signal);outline-offset:0;border-color:var(--ink)}
+.fld .err{font-size:.875rem;color:var(--signal-ink);min-height:0}
+.fld .chk{display:flex;align-items:flex-start;gap:12px;font-weight:400;font-size:.9375rem;cursor:pointer}
+.fld .chk input{flex:none;width:22px;height:22px;min-height:22px;margin:1px 0 0;padding:0;accent-color:var(--ink)}
+.priv{font-size:.8125rem;color:var(--ink-2)}
+.priv summary{cursor:pointer;text-underline-offset:4px;text-decoration:underline;width:fit-content}
+.priv p{margin-top:8px;max-width:60ch}
+.priv a{color:inherit;text-underline-offset:4px}
+.form-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.form-foot small{color:var(--ink-2);font-size:.8125rem;max-width:34ch}
+.hp{position:absolute;left:-9999px}
+[hidden]{display:none!important}
+.status{border:1px solid var(--ink);padding:16px;display:grid;gap:10px}
+.status h3{font-size:1.1875rem}
+.status p{color:var(--ink-2)}
+
+/* rodapé */
+footer{border-top:1px solid var(--ink)}
+footer .wrap{padding-block:28px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+footer .mono{color:var(--ink-2)}
+.copy{display:inline-flex;align-items:center;gap:8px}
+.copy button{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;background:none;border:1px solid var(--rule);padding:6px 8px;cursor:pointer;color:var(--ink-2);min-height:32px}
+.copy button:hover{border-color:var(--ink);color:var(--ink)}
+.final .copy button{border-color:#4A4B4D;color:var(--on-ink-2)}
+.final .copy button:hover{border-color:var(--on-ink);color:var(--on-ink)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Tramia, início">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="36" height="6" fill="#1C1D1F"/><rect x="10" y="15" width="6" height="24" fill="#1C1D1F"/><rect x="32" y="15" width="6" height="24" fill="#1C1D1F"/><rect x="16" y="25" width="16" height="5" fill="#E2531A"/></svg>
+      <span class="wordmark">tram<span>ia</span></span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a class="link" href="#metodo">Como funciona</a>
+      <a class="link" href="#diagnostico">Diagnóstico</a>
+      <a class="link" href="#perguntas">Perguntas</a>
+      <a class="btn btn-primary btn-sm" href="#contato">Diagnóstico gratuito</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Seus sistemas não conversam. Sua equipe vira <em>a ponte.</em></h1>
+      <div class="hero-row">
+        <p class="punch">Dado bom é dado digitado uma vez.</p>
+        <div>
+          <div class="cta-group">
+            <a class="btn btn-primary" href="#contato">Pedir diagnóstico gratuito <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href="#metodo">Como funciona</a>
+          </div>
+          <p class="assure">Gratuito e sem compromisso.</p>
+        </div>
+      </div>
+      <div class="hero-line" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="section" id="problema">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">O problema</span>
+        <div>
+          <h2>Quando os sistemas não se falam, alguém copia e cola o dia inteiro.</h2>
+          <p>É trabalho que ninguém contratou e que não aparece em relatório. Ele só aparece como atraso, erro de digitação e gente sobrecarregada.</p>
+        </div>
+      </div>
+      <div class="sec-body">
+        <div class="story" id="story">
+          <div class="stage" aria-hidden="true">
+            <div class="stage-top mono"><span id="stage-label">Sintoma</span><span class="tnum"><b id="stage-n">01</b> / 04</span></div>
+            <div class="scenes">
+              <!-- 1: digitado duas vezes -->
+              <svg class="scene on" data-i="0" viewBox="0 0 320 220" fill="none">
+                <g class="win"><rect x="16" y="40" width="118" height="92" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="16" y="40" width="118" height="12" fill="#1C1D1F"/>
+                <rect x="28" y="66" width="80" height="8" fill="#E2531A"/><rect x="28" y="84" width="60" height="4" fill="#CFCAC0"/><rect x="28" y="96" width="72" height="4" fill="#CFCAC0"/><rect x="28" y="108" width="50" height="4" fill="#CFCAC0"/></g>
+                <g class="win"><rect x="186" y="88" width="118" height="92" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="186" y="88" width="118" height="12" fill="#1C1D1F"/>
+                <rect x="198" y="114" width="80" height="8" fill="#E2531A"/><rect x="198" y="132" width="60" height="4" fill="#CFCAC0"/><rect x="198" y="144" width="72" height="4" fill="#CFCAC0"/></g>
+                <path class="draw" d="M108 70 C160 70 150 118 198 118" stroke="#E2531A" stroke-width="2" stroke-dasharray="5 5"/>
+                <g class="pop"><rect x="138" y="150" width="40" height="28" fill="#E2531A"/><text x="158" y="169" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="500" fill="#1C1D1F">×2</text></g>
+                <text x="16" y="30" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4A4B4D">VENDAS</text><text x="186" y="78" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4A4B4D">FINANCEIRO</text>
+              </svg>
+              <!-- 2: planilha oficial -->
+              <svg class="scene" data-i="1" viewBox="0 0 320 220" fill="none">
+                <g class="win"><rect x="70" y="30" width="180" height="130" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="70" y="30" width="180" height="12" fill="#1C1D1F"/>
+                <path d="M70 64H250M70 86H250M70 108H250M70 130H250M115 42V160M160 42V160M205 42V160" stroke="#CFCAC0" stroke-width="1"/></g>
+                <rect class="pop" x="160" y="86" width="45" height="22" fill="#E2531A"/>
+                <path class="draw" d="M30 196 C30 150 70 150 70 120" stroke="#1C1D1F" stroke-width="1.2" stroke-dasharray="4 4"/>
+                <path class="draw" d="M290 196 C290 150 250 150 250 120" stroke="#1C1D1F" stroke-width="1.2" stroke-dasharray="4 4"/>
+                <g class="pop"><circle cx="160" cy="184" r="9" fill="#1C1D1F"/><path d="M144 210c0-10 7-15 16-15s16 5 16 15" fill="#1C1D1F"/></g>
+                <rect x="14" y="196" width="32" height="20" stroke="#4A4B4D" stroke-width="1.2" stroke-dasharray="3 3"/><rect x="274" y="196" width="32" height="20" stroke="#4A4B4D" stroke-width="1.2" stroke-dasharray="3 3"/>
+              </svg>
+              <!-- 3: relatório à mão -->
+              <svg class="scene" data-i="2" viewBox="0 0 320 220" fill="none">
+                <g class="win"><rect x="14" y="20" width="76" height="46" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="14" y="20" width="76" height="9" fill="#1C1D1F"/>
+                <rect x="14" y="87" width="76" height="46" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="14" y="87" width="76" height="9" fill="#1C1D1F"/>
+                <rect x="14" y="154" width="76" height="46" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="14" y="154" width="76" height="9" fill="#1C1D1F"/></g>
+                <path class="draw" d="M90 43 C140 43 140 110 196 110M90 110H196M90 177 C140 177 140 110 196 110" stroke="#1C1D1F" stroke-width="1.2" stroke-dasharray="4 4"/>
+                <g class="win"><rect x="196" y="62" width="96" height="120" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><path d="M272 62V80H292" stroke="#1C1D1F" stroke-width="1.5"/>
+                <rect x="212" y="140" width="10" height="24" fill="#CFCAC0"/><rect x="228" y="128" width="10" height="36" fill="#CFCAC0"/><rect x="244" y="116" width="10" height="48" fill="#1C1D1F"/><rect x="260" y="104" width="10" height="60" fill="#E2531A"/></g>
+                <g class="pop"><circle cx="292" cy="190" r="16" fill="#E2531A"/><path d="M292 180v10l7 5" stroke="#1C1D1F" stroke-width="2"/></g>
+              </svg>
+              <!-- 4: whatsapp -->
+              <svg class="scene" data-i="3" viewBox="0 0 320 220" fill="none">
+                <g class="win"><rect x="18" y="34" width="110" height="34" rx="14" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="40" y="48" width="60" height="5" fill="#CFCAC0"/>
+                <rect x="40" y="82" width="110" height="34" rx="14" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="60" y="96" width="70" height="5" fill="#CFCAC0"/></g>
+                <g class="pop"><rect x="18" y="130" width="110" height="34" rx="14" fill="#E2531A"/><rect x="38" y="144" width="52" height="5" fill="#1C1D1F"/></g>
+                <path class="draw" d="M128 147 C170 147 168 110 196 110" stroke="#E2531A" stroke-width="2" stroke-dasharray="5 5"/>
+                <g class="win"><rect x="196" y="64" width="108" height="92" fill="#F2EFE8" stroke="#1C1D1F" stroke-width="1.5"/><rect x="196" y="64" width="108" height="12" fill="#1C1D1F"/>
+                <rect x="208" y="92" width="84" height="12" stroke="#4A4B4D" stroke-width="1.2" stroke-dasharray="3 3"/><rect x="208" y="112" width="84" height="12" stroke="#4A4B4D" stroke-width="1.2" stroke-dasharray="3 3"/></g>
+                <text x="250" y="148" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4A4B4D">AGUARDANDO</text>
+              </svg>
+            </div>
+            <div class="stage-bar"><span id="stage-bar"></span></div>
+          </div>
+          <ol class="beats">
+            <li class="beat on" data-i="0"><span class="beat-n mono">01</span><h3>O mesmo pedido digitado duas vezes</h3><p>Entra no sistema de vendas e depois é lançado de novo no financeiro ou no estoque.</p><span class="where mono">Vendas → Financeiro</span><div class="beat-art"></div></li>
+            <li class="beat" data-i="1"><span class="beat-n mono">02</span><h3>A planilha virou o sistema oficial</h3><p>Os dados certos estão num arquivo que só uma pessoa sabe atualizar.</p><span class="where mono">Todos os setores → 1 arquivo</span><div class="beat-art"></div></li>
+            <li class="beat" data-i="2"><span class="beat-n mono">03</span><h3>Relatório montado à mão toda semana</h3><p>Alguém exporta de três lugares, junta, confere e manda por e-mail.</p><span class="where mono">3 sistemas → 1 relatório</span><div class="beat-art"></div></li>
+            <li class="beat" data-i="3"><span class="beat-n mono">04</span><h3>Informação presa no WhatsApp</h3><p>Pedidos e aprovações chegam por mensagem e precisam ser passados para o sistema.</p><span class="where mono">Conversa → Sistema</span><div class="beat-art"></div></li>
+          </ol>
+        </div>
+
+        <div class="calc" aria-labelledby="calc-title">
+          <div class="calc-in">
+            <span class="mono" id="calc-title">Calcule o custo da redigitação</span>
+            <div class="field-r">
+              <label for="c-pessoas">Pessoas que redigitam dados <output id="o-pessoas" for="c-pessoas">3</output></label>
+              <input type="range" id="c-pessoas" min="1" max="20" step="1" value="3">
+            </div>
+            <div class="field-r">
+              <label for="c-min">Minutos por pessoa, por dia <output id="o-min" for="c-min">30 min</output></label>
+              <input type="range" id="c-min" min="10" max="180" step="5" value="30">
+            </div>
+            <div class="field-r">
+              <label for="c-custo">Custo da hora de trabalho <output id="o-custo" for="c-custo">R$ 25</output></label>
+              <input type="range" id="c-custo" min="15" max="120" step="5" value="25">
+            </div>
+          </div>
+          <div class="calc-out" aria-live="polite">
+            <div>
+              <span class="mono">Tempo perdido por mês</span>
+              <div class="big tnum"><span id="r-horas">33</span><small>horas</small></div>
+            </div>
+            <dl class="calc-rows tnum">
+              <div><dt>Custo por mês</dt><dd id="r-mes">R$ 825</dd></div>
+              <div><dt>Custo por ano</dt><dd id="r-ano">R$ 9.900</dd></div>
+            </dl>
+            <p class="calc-note">Estimativa com 22 dias úteis por mês. Ajuste para a realidade da sua empresa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTODO -->
+  <section class="section" id="metodo" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Como funciona</span>
+        <div>
+          <h2>Três etapas, da primeira conversa ao fluxo rodando sozinho.</h2>
+          <p>Você só decide seguir depois de ver o mapa do problema e o tamanho do ganho.</p>
+        </div>
+      </div>
+      <div class="sec-body steps">
+        <span class="rail" aria-hidden="true"></span>
+        <article class="step" id="diagnostico">
+          <span class="num">01</span>
+          <div>
+            <h3>Diagnóstico</h3>
+            <p class="lead">Mapeamos como o dado anda hoje entre seus sistemas e onde ele é digitado de novo.</p>
+            <ul>
+              <li>Conversa de 30 minutos com quem faz o trabalho</li>
+              <li>Levantamento dos sistemas e de como cada um exporta dados</li>
+              <li>Mapa do fluxo com os pontos de retrabalho marcados</li>
+            </ul>
+            <span class="tag free">Gratuito</span>
+          </div>
+          <div class="step-fig schema" aria-hidden="true">
+            <svg viewBox="0 0 320 180" fill="none">
+              <rect x="14" y="30" width="70" height="44" stroke="#1C1D1F" stroke-width="1.5" fill="#F2EFE8"/>
+              <rect x="14" y="30" width="70" height="8" fill="#1C1D1F"/>
+              <rect x="125" y="96" width="70" height="44" stroke="#1C1D1F" stroke-width="1.5" fill="#F2EFE8"/>
+              <rect x="125" y="96" width="70" height="8" fill="#1C1D1F"/>
+              <rect x="236" y="30" width="70" height="44" stroke="#1C1D1F" stroke-width="1.5" fill="#F2EFE8"/>
+              <rect x="236" y="30" width="70" height="8" fill="#1C1D1F"/>
+              <path d="M84 52 H104 V118 H125" stroke="#1C1D1F" stroke-width="1.2" stroke-dasharray="4 4"/>
+              <path d="M195 118 H215 V52 H236" stroke="#1C1D1F" stroke-width="1.2" stroke-dasharray="4 4"/>
+              <circle cx="104" cy="85" r="11" stroke="#E2531A" stroke-width="2" fill="#F2EFE8"/>
+              <path d="M100 85h8M104 81v8" stroke="#E2531A" stroke-width="2"/>
+              <circle cx="215" cy="85" r="11" stroke="#E2531A" stroke-width="2" fill="#F2EFE8"/>
+              <path d="M211 85h8M215 81v8" stroke="#E2531A" stroke-width="2"/>
+              <rect x="24" y="48" width="34" height="3" fill="#A9A79F"/><rect x="24" y="56" width="46" height="3" fill="#A9A79F"/>
+              <rect x="135" y="114" width="40" height="3" fill="#A9A79F"/><rect x="135" y="122" width="28" height="3" fill="#A9A79F"/>
+              <rect x="246" y="48" width="44" height="3" fill="#A9A79F"/><rect x="246" y="56" width="30" height="3" fill="#A9A79F"/>
+            </svg>
+          </div>
+        </article>
+        <article class="step">
+          <span class="num">02</span>
+          <div>
+            <h3>Integração</h3>
+            <p class="lead">Ligamos os sistemas para que o dado entre uma vez e chegue sozinho aonde precisa.</p>
+            <ul>
+              <li>Escopo e preço fechados antes de começar</li>
+              <li>Conexão por API, banco de dados ou exportação, conforme cada sistema</li>
+              <li>Teste com dados reais antes de entrar em produção</li>
+            </ul>
+            <span class="tag">Projeto por fluxo</span>
+          </div>
+          <figure class="step-fig" style="margin:0"><img src="img/integracao.webp" width="1200" height="675" loading="lazy" alt="Um sistema de cadastro e um banco de dados ligados por uma linha laranja a um bloco central, que entrega os dados a um painel com gráfico e a documentos."></figure>
+        </article>
+        <article class="step">
+          <span class="num">03</span>
+          <div>
+            <h3>Manutenção</h3>
+            <p class="lead">Acompanhamos o fluxo integrado e ajustamos quando algum sistema muda.</p>
+            <ul>
+              <li>Monitoramento das integrações em funcionamento</li>
+              <li>Ajuste quando o fornecedor de um sistema muda algo, coberto em contrato</li>
+              <li>Documentação do fluxo entregue para a sua empresa</li>
+            </ul>
+            <span class="tag">Mensal</span>
+          </div>
+          <figure class="step-fig" style="margin:0"><img src="img/manutencao.webp" width="1200" height="675" loading="lazy" alt="Vários sistemas conectados a um bloco central marcado com um sinal de verificação, indicando o fluxo monitorado."></figure>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTREGÁVEIS -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">O que o diagnóstico entrega</span>
+        <div>
+          <h2>Você sai da conversa com um documento, mesmo que não contrate.</h2>
+        </div>
+      </div>
+      <div class="sec-body deliver" style="margin-top:clamp(40px,6vw,72px)">
+        <div><span class="mono">Mapa</span><h3>Fluxo atual</h3><p>Por onde o dado passa hoje, sistema a sistema.</p></div>
+        <div><span class="mono">Pontos</span><h3>Retrabalho marcado</h3><p>Cada etapa em que alguém digita ou confere de novo.</p></div>
+        <div><span class="mono">Horas</span><h3>Tempo recuperável</h3><p>Estimativa de horas por mês que a integração devolve.</p></div>
+        <div><span class="mono">Proposta</span><h3>Escopo e preço</h3><p>O que integrar primeiro, quanto custa e em quanto tempo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARATIVO -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head why-head">
+        <span class="mono">Por que integrar</span>
+        <div>
+          <h2>Trocar tudo é caro. Continuar como está também.</h2>
+          <p>A Tramia conecta os sistemas que sua empresa já usa e acaba com a redigitação entre eles. Sem trocar de ERP e sem a equipe reaprender nada.</p>
+        </div>
+        <figure class="why-art"><img src="img/hero.webp" width="1600" height="900" loading="lazy" alt="À esquerda, sistemas ligados por linhas emaranhadas. À direita, os mesmos sistemas ligados a um bloco central por linhas laranja."></figure>
+      </div>
+      <div class="sec-body table-box">
+        <table class="vs">
+          <thead><tr>
+            <th scope="col"><span class="sr">Critério</span></th>
+            <th scope="col" class="us"><span class="us-tag mono">A escolha certa</span><span class="us-name">Integrar com a <b>Tramia</b></span></th>
+            <th scope="col">Trocar de ERP</th>
+            <th scope="col">Seguir na planilha</th>
+          </tr></thead>
+          <tbody>
+            <tr><th scope="row">Investimento inicial</th><td class="us"><i class="ok" aria-label="Vantagem"></i>Proporcional ao que for integrado</td><td><i class="no" aria-label="Desvantagem"></i>Alto: licença, migração e implantação</td><td><i class="mid" aria-label="Neutro"></i>Nenhum no início</td></tr>
+            <tr><th scope="row">Equipe reaprende</th><td class="us"><i class="ok" aria-label="Vantagem"></i>Não. Os sistemas continuam os mesmos</td><td><i class="no" aria-label="Desvantagem"></i>Sim, todos os processos</td><td><i class="ok-dim" aria-label="Vantagem"></i>Não</td></tr>
+            <tr><th scope="row">Redigitação</th><td class="us"><i class="ok" aria-label="Vantagem"></i>Some nos fluxos integrados</td><td><i class="mid" aria-label="Neutro"></i>Some, se tudo migrar</td><td><i class="no" aria-label="Desvantagem"></i>Continua todo dia</td></tr>
+            <tr><th scope="row">Quando o dado chega</th><td class="us"><i class="ok" aria-label="Vantagem"></i>Sozinho, sem ninguém copiar</td><td><i class="mid" aria-label="Neutro"></i>Depois da implantação completa</td><td><i class="no" aria-label="Desvantagem"></i>Quando alguém atualizar</td></tr>
+            <tr><th scope="row">Principal risco</th><td class="us"><i class="ok" aria-label="Vantagem"></i>Mudança em sistema de terceiro, coberta na manutenção</td><td><i class="no" aria-label="Desvantagem"></i>Migração de dados e parada da operação</td><td><i class="no" aria-label="Desvantagem"></i>Erro manual e dependência de uma pessoa</td></tr>
+            <tr class="foot"><th scope="row"><span class="sr">Próximo passo</span></th><td class="us"><a class="btn btn-primary btn-sm" href="#contato">Pedir diagnóstico <span class="arrow" aria-hidden="true">→</span></a></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="perguntas" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Perguntas frequentes</span>
+        <div><h2>Antes de pedir o diagnóstico.</h2></div>
+      </div>
+      <div class="sec-body faq">
+        <details><summary>Quanto custa?</summary><p>O diagnóstico é gratuito. A integração é orçada por fluxo depois do diagnóstico, com escopo e preço fechados por escrito. A manutenção é uma mensalidade combinada no mesmo contrato.</p></details>
+        <details><summary>Preciso trocar algum sistema?</summary><p>Não. A ideia é justamente manter o que sua equipe já usa e fazer esses sistemas trocarem dados entre si.</p></details>
+        <details><summary>Quais sistemas vocês conseguem integrar?</summary><p>ERPs, planilhas do Excel e do Google, plataformas de e-commerce, e-mail, formulários e sistemas que tenham API, acesso a banco de dados ou exportação de arquivos. O diagnóstico confirma o que é viável no seu caso.</p></details>
+        <details><summary>E se o fornecedor de um sistema mudar alguma coisa?</summary><p>Mudanças em sistemas de terceiros acontecem. O contrato de manutenção cobre o ajuste da integração quando isso ocorre, sem custo extra.</p></details>
+        <details><summary>Como ficam os dados da minha empresa?</summary><p>Usamos só os acessos necessários para cada integração, com credenciais em nome da sua empresa, e assinamos termo de confidencialidade. O tratamento segue a LGPD.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="final" id="contato">
+    <div class="wrap">
+      <div class="final-grid">
+        <div>
+          <span class="mono">Diagnóstico gratuito</span>
+          <h2 style="margin-top:16px">Mostre onde sua equipe perde tempo. <em>A gente mostra o caminho.</em></h2>
+          <ol class="next">
+            <li><span class="n">01</span><div><strong>Você envia o formulário</strong><p>Leva menos de dois minutos.</p></div></li>
+            <li><span class="n">02</span><div><strong>Conversa de 30 minutos</strong><p>Pelo WhatsApp ou por vídeo, no horário que for melhor.</p></div></li>
+            <li><span class="n">03</span><div><strong>Você recebe o mapa</strong><p>Com os pontos de retrabalho e uma proposta, sem compromisso.</p></div></li>
+          </ol>
+          <div class="direct mono">
+            <span>Prefere falar direto?</span>
+            <span class="copy"><a href="https://wa.me/5542984221831?text=Ol%C3%A1%2C%20quero%20o%20diagn%C3%B3stico%20gratuito%20da%20Tramia." target="_blank" rel="noopener">(42) 98422-1831</a></span>
+            <span class="copy"><span id="mail-final">tramia.integra@gmail.com</span><button type="button" data-copy="tramia.integra@gmail.com">Copiar</button></span>
+          </div>
+        </div>
+
+        <div>
+          <form class="lead" id="lead" name="diagnostico" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+            <input type="hidden" name="form-name" value="diagnostico">
+            <p class="hp"><label for="bot-field">Não preencha</label><input id="bot-field" name="bot-field" tabindex="-1" autocomplete="off"></p>
+            <div class="f2">
+              <div class="fld"><label for="f-nome">Seu nome</label><input id="f-nome" name="nome" autocomplete="name" required><span class="err" id="e-nome" aria-live="polite"></span></div>
+              <div class="fld"><label for="f-empresa">Empresa</label><input id="f-empresa" name="empresa" autocomplete="organization" required><span class="err" id="e-empresa" aria-live="polite"></span></div>
+            </div>
+            <div class="fld"><label for="f-whats">WhatsApp</label><input id="f-whats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(42) 99999-9999" required><span class="err" id="e-whats" aria-live="polite"></span></div>
+            <div class="fld"><label for="f-sistemas">Sistemas que vocês usam <i>(opcional)</i></label><input id="f-sistemas" name="sistemas" placeholder="Ex.: ERP, planilhas, loja virtual"></div>
+            <div class="fld"><label for="f-dor">O que mais toma tempo hoje? <i>(opcional)</i></label><textarea id="f-dor" name="dor" placeholder="Ex.: lançar pedidos do site no financeiro"></textarea></div>
+            <div class="fld">
+              <label class="chk" for="f-lgpd"><input type="checkbox" id="f-lgpd" name="consentimento" value="sim" required aria-describedby="e-lgpd"><span>Concordo em ser contatado pela Tramia sobre o diagnóstico gratuito.</span></label>
+              <span class="err" id="e-lgpd" aria-live="polite"></span>
+            </div>
+            <details class="priv">
+              <summary>Como tratamos seus dados</summary>
+              <p>Coletamos nome, empresa, WhatsApp e, se você preencher, os sistemas que usa e o que toma tempo. Usamos esses dados só para retornar o contato sobre o diagnóstico. Não vendemos nem compartilhamos com terceiros; o envio passa pela plataforma que hospeda esta página (Netlify). Guardamos seus dados por até 12 meses. Para corrigir ou apagar antes disso, escreva para <a href="mailto:tramia.integra@gmail.com">tramia.integra@gmail.com</a>.</p>
+            </details>
+            <div class="form-foot">
+              <small>Usamos seus dados só para falar sobre o diagnóstico.</small>
+              <button class="btn btn-primary" type="submit" id="f-submit">Pedir diagnóstico <span class="arrow" aria-hidden="true">→</span></button>
+            </div>
+          </form>
+          <div class="lead status" id="ok" hidden tabindex="-1" style="background:var(--paper);color:var(--ink);padding:clamp(20px,3vw,36px)">
+            <span class="mono" style="color:var(--signal-ink)">Pedido recebido</span>
+            <h3>Obrigado. Vamos chamar você no WhatsApp informado.</h3>
+            <p>Se preferir adiantar, mande uma mensagem para (42) 98422-1831.</p>
+          </div>
+          <div class="lead status" id="fail" hidden tabindex="-1" style="background:var(--paper);color:var(--ink);padding:clamp(20px,3vw,36px)">
+            <span class="mono" style="color:var(--signal-ink)">Não foi possível enviar pelo site</span>
+            <h3>Envie os mesmos dados pelo WhatsApp.</h3>
+            <p>A mensagem abre já preenchida com o que você digitou.</p>
+            <a class="btn btn-primary" id="fail-wa" href="https://wa.me/5542984221831" target="_blank" rel="noopener">Abrir WhatsApp <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Tramia, voltar ao início">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="36" height="6" fill="#1C1D1F"/><rect x="10" y="15" width="6" height="24" fill="#1C1D1F"/><rect x="32" y="15" width="6" height="24" fill="#1C1D1F"/><rect x="16" y="25" width="16" height="5" fill="#E2531A"/></svg>
+      <span class="wordmark" style="font-size:1.25rem">tram<span>ia</span></span>
+    </a>
+    <span class="mono">Integração de sistemas · Ponta Grossa, PR</span>
+    <span class="mono copy"><span>tramia.integra@gmail.com</span><button type="button" data-copy="tramia.integra@gmail.com">Copiar</button></span>
+    <span class="mono">© 2026 Tramia</span>
+  </div>
+</footer>
+
+<style>.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}</style>
+<script>
+(function(){
+  // ---------- calculadora ----------
+  var $=function(id){return document.getElementById(id)};
+  var brl=function(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR')};
+  function calc(){
+    var p=+$('c-pessoas').value, m=+$('c-min').value, c=+$('c-custo').value;
+    var horas=p*m*22/60, mes=horas*c;
+    $('o-pessoas').textContent=p;
+    $('o-min').textContent=m+' min';
+    $('o-custo').textContent=brl(c);
+    $('r-horas').textContent=Math.round(horas).toLocaleString('pt-BR');
+    $('r-mes').textContent=brl(mes);
+    $('r-ano').textContent=brl(mes*12);
+  }
+  ['c-pessoas','c-min','c-custo'].forEach(function(id){$(id).addEventListener('input',calc)});
+  calc();
+
+  // ---------- problema: palco fixo ----------
+  var scenes=[].slice.call(document.querySelectorAll('.stage .scene'));
+  var beats=[].slice.call(document.querySelectorAll('.beat'));
+  beats.forEach(function(b,i){var c=scenes[i].cloneNode(true);c.classList.add('on');b.querySelector('.beat-art').appendChild(c)});
+  function activate(i){
+    beats.forEach(function(b,k){b.classList.toggle('on',k===i)});
+    scenes.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    $('stage-n').textContent='0'+(i+1);
+    $('stage-bar').style.width=((i+1)*25)+'%';
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)activate(+e.target.getAttribute('data-i'))})},{rootMargin:'-45% 0px -45% 0px'});
+    beats.forEach(function(b){io.observe(b)});
+  }
+
+  // ---------- copiar ----------
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=b.getAttribute('data-copy'), done=function(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar'},1600)};
+      try{navigator.clipboard.writeText(t).then(done,function(){sel(b)})}catch(e){sel(b)}
+    });
+  });
+  function sel(b){var s=b.previousElementSibling;if(!s)return;var r=document.createRange();r.selectNodeContents(s);var w=getSelection();w.removeAllRanges();w.addRange(r)}
+
+  // ---------- telefone ----------
+  var wh=$('f-whats');
+  wh.addEventListener('input',function(){
+    var d=wh.value.replace(/\D/g,'').slice(0,11), o=d;
+    if(d.length>2) o='('+d.slice(0,2)+') '+d.slice(2);
+    if(d.length>7) o='('+d.slice(0,2)+') '+d.slice(2,d.length-4)+'-'+d.slice(-4);
+    wh.value=o;
+  });
+
+  // ---------- formulário ----------
+  var f=$('lead');
+  function setErr(id,msg){
+    $(id).textContent=msg||'';
+    var inp=$(id.replace('e-','f-'));
+    if(inp){ if(msg) inp.setAttribute('aria-invalid','true'); else inp.removeAttribute('aria-invalid'); }
+  }
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var nome=$('f-nome').value.trim(), emp=$('f-empresa').value.trim(), w=$('f-whats').value.replace(/\D/g,'');
+    setErr('e-nome',nome?'':'Informe seu nome.');
+    setErr('e-empresa',emp?'':'Informe o nome da empresa.');
+    setErr('e-whats',(w.length>=10)?'':'Informe o WhatsApp com DDD, por exemplo (42) 99999-9999.');
+    if(!nome){$('f-nome').focus();return}
+    if(!emp){$('f-empresa').focus();return}
+    setErr('e-lgpd',$('f-lgpd').checked?'':'Marque a caixa para podermos entrar em contato.');
+    if(w.length<10){wh.focus();return}
+    if(!$('f-lgpd').checked){$('f-lgpd').focus();return}
+
+    var data=new FormData(f), body=new URLSearchParams(data).toString();
+    var msg='Olá, quero o diagnóstico gratuito da Tramia.\n\nNome: '+nome+'\nEmpresa: '+emp+'\nWhatsApp: '+$('f-whats').value+
+      ($('f-sistemas').value.trim()?'\nSistemas: '+$('f-sistemas').value.trim():'')+
+      ($('f-dor').value.trim()?'\nO que mais toma tempo: '+$('f-dor').value.trim():'');
+    $('fail-wa').href='https://wa.me/5542984221831?text='+encodeURIComponent(msg);
+
+    var btn=$('f-submit'); btn.disabled=true; btn.firstChild.textContent='Enviando… ';
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+      .then(function(r){if(!r.ok)throw new Error(r.status); show('ok')})
+      .catch(function(){show('fail')});
+  });
+  function show(id){f.hidden=true;var el=$(id);el.hidden=false;el.focus()}
+})();
+</script>
+
+</body>
+</html>

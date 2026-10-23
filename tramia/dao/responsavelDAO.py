@@ -1,4 +1,6 @@
-import database.conexao from conectar  
+from tramia.database.conexao import conectar
+from tramia.database.conexao import conectar
+from tramia.models.responsavel import Responsavel
 
 class ResponsavelDAO:   #cria classe
     def inserir(self, responsavel): #função de inserir obejto "funcionario"responsavel
@@ -12,29 +14,30 @@ class ResponsavelDAO:   #cria classe
             VALUES(?,?)
             """,
             (
-                responsavel.getNome(),
-                responsavel.getEmail()
+                responsavel.nome(),
+                responsavel.email()
             )
         )
 
         conexao.commit()    #confirma as operações e transação no banco de dados
         conexao.close() #finaliza conexao
 
-    def listar(self, usuario):
+    def listar(self):
         conexao = conectar()
 
         cursor = conexao.cursor()
 
         cursor.execute( #seleciona os nomes dos responsáveis
             """
-            SELECT nome FROM responsavel    
-            """,
-            (
-                responsaveis = cursor.fetchall()    #busca todos os nomes selecionados
-            )
+            SELECT * FROM responsavel    
+            """
         )
 
+        responsaveis = cursor.fetchall()    #busca todos os nomes selecionados
+
         conexao.close()
+
+        return [self._para_objeto(linha) for linha in responsaveis]
 
     def buscarID(self, id):
         conexao = conectar()
@@ -49,7 +52,7 @@ class ResponsavelDAO:   #cria classe
             (id,)
         )
         
-        responsavel = cursor.fetchone() #coleta o dado
+        responsavel.id = cursor.lastrowid() #coleta o dado
 
         cursor.close()
         conexao.close()

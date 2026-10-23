@@ -273,9 +273,16 @@ form.lead{background:var(--paper);color:var(--ink);padding:clamp(20px,3vw,36px);
 .fld textarea{min-height:104px;resize:vertical}
 .fld input:focus,.fld textarea:focus{outline:2px solid var(--signal);outline-offset:0;border-color:var(--ink)}
 .fld .err{font-size:.875rem;color:var(--signal-ink);min-height:0}
+.fld .chk{display:flex;align-items:flex-start;gap:12px;font-weight:400;font-size:.9375rem;cursor:pointer}
+.fld .chk input{flex:none;width:22px;height:22px;min-height:22px;margin:1px 0 0;padding:0;accent-color:var(--ink)}
+.priv{font-size:.8125rem;color:var(--ink-2)}
+.priv summary{cursor:pointer;text-underline-offset:4px;text-decoration:underline;width:fit-content}
+.priv p{margin-top:8px;max-width:60ch}
+.priv a{color:inherit;text-underline-offset:4px}
 .form-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
 .form-foot small{color:var(--ink-2);font-size:.8125rem;max-width:34ch}
 .hp{position:absolute;left:-9999px}
+[hidden]{display:none!important}
 .status{border:1px solid var(--ink);padding:16px;display:grid;gap:10px}
 .status h3{font-size:1.1875rem}
 .status p{color:var(--ink-2)}
@@ -592,12 +599,20 @@ footer .mono{color:var(--ink-2)}
             <input type="hidden" name="form-name" value="diagnostico">
             <p class="hp"><label for="bot-field">Não preencha</label><input id="bot-field" name="bot-field" tabindex="-1" autocomplete="off"></p>
             <div class="f2">
-              <div class="fld"><label for="f-nome">Seu nome</label><input id="f-nome" name="nome" autocomplete="name" required><span class="err" id="e-nome"></span></div>
-              <div class="fld"><label for="f-empresa">Empresa</label><input id="f-empresa" name="empresa" autocomplete="organization" required><span class="err" id="e-empresa"></span></div>
+              <div class="fld"><label for="f-nome">Seu nome</label><input id="f-nome" name="nome" autocomplete="name" required><span class="err" id="e-nome" aria-live="polite"></span></div>
+              <div class="fld"><label for="f-empresa">Empresa</label><input id="f-empresa" name="empresa" autocomplete="organization" required><span class="err" id="e-empresa" aria-live="polite"></span></div>
             </div>
-            <div class="fld"><label for="f-whats">WhatsApp</label><input id="f-whats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(42) 99999-9999" required><span class="err" id="e-whats"></span></div>
+            <div class="fld"><label for="f-whats">WhatsApp</label><input id="f-whats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(42) 99999-9999" required><span class="err" id="e-whats" aria-live="polite"></span></div>
             <div class="fld"><label for="f-sistemas">Sistemas que vocês usam <i>(opcional)</i></label><input id="f-sistemas" name="sistemas" placeholder="Ex.: ERP, planilhas, loja virtual"></div>
             <div class="fld"><label for="f-dor">O que mais toma tempo hoje? <i>(opcional)</i></label><textarea id="f-dor" name="dor" placeholder="Ex.: lançar pedidos do site no financeiro"></textarea></div>
+            <div class="fld">
+              <label class="chk" for="f-lgpd"><input type="checkbox" id="f-lgpd" name="consentimento" value="sim" required aria-describedby="e-lgpd"><span>Concordo em ser contatado pela Tramia sobre o diagnóstico gratuito.</span></label>
+              <span class="err" id="e-lgpd" aria-live="polite"></span>
+            </div>
+            <details class="priv">
+              <summary>Como tratamos seus dados</summary>
+              <p>Coletamos nome, empresa, WhatsApp e, se você preencher, os sistemas que usa e o que toma tempo. Usamos esses dados só para retornar o contato sobre o diagnóstico. Não vendemos nem compartilhamos com terceiros; o envio passa pela plataforma que hospeda esta página (Netlify). Guardamos seus dados por até 12 meses. Para corrigir ou apagar antes disso, escreva para <a href="mailto:tramia.integra@gmail.com">tramia.integra@gmail.com</a>.</p>
+            </details>
             <div class="form-foot">
               <small>Usamos seus dados só para falar sobre o diagnóstico.</small>
               <button class="btn btn-primary" type="submit" id="f-submit">Pedir diagnóstico <span class="arrow" aria-hidden="true">→</span></button>
@@ -686,7 +701,11 @@ footer .mono{color:var(--ink-2)}
 
   // ---------- formulário ----------
   var f=$('lead');
-  function setErr(id,msg){$(id).textContent=msg||''}
+  function setErr(id,msg){
+    $(id).textContent=msg||'';
+    var inp=$(id.replace('e-','f-'));
+    if(inp){ if(msg) inp.setAttribute('aria-invalid','true'); else inp.removeAttribute('aria-invalid'); }
+  }
   f.addEventListener('submit',function(e){
     e.preventDefault();
     var nome=$('f-nome').value.trim(), emp=$('f-empresa').value.trim(), w=$('f-whats').value.replace(/\D/g,'');
@@ -695,7 +714,9 @@ footer .mono{color:var(--ink-2)}
     setErr('e-whats',(w.length>=10)?'':'Informe o WhatsApp com DDD, por exemplo (42) 99999-9999.');
     if(!nome){$('f-nome').focus();return}
     if(!emp){$('f-empresa').focus();return}
+    setErr('e-lgpd',$('f-lgpd').checked?'':'Marque a caixa para podermos entrar em contato.');
     if(w.length<10){wh.focus();return}
+    if(!$('f-lgpd').checked){$('f-lgpd').focus();return}
 
     var data=new FormData(f), body=new URLSearchParams(data).toString();
     var msg='Olá, quero o diagnóstico gratuito da Tramia.\n\nNome: '+nome+'\nEmpresa: '+emp+'\nWhatsApp: '+$('f-whats').value+

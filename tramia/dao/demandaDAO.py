@@ -1,18 +1,23 @@
-from tramia.database import conectar
-from tramia.responsavel import Responsavel  
+from tramia.database.conexao import conectar
+from tramia.models.demanda import Demanda
+from tramia.models.responsavel import Responsavel  
 
 class DemandaDAO:
-    def inserir(self, responsavel: Responsavel) -> None:
+    def inserir(self, id, demanda: Demanda) -> None:
 
         pass
 
-    def atualizar(self)
+    def atualizar(self, id):
+        pass
 
-    def excluir(self)
+    def excluir(self, id):
+        pass
 
-    def buscar_id(self)
+    def buscar_id(self, id):
+        pass
 
+    def listar(self, id):
+        pass
 
-    def listar(self)
-
-    def _para_objeto(self)
+    def _para_objeto(self, id):
+        pass

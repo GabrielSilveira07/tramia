@@ -1,77 +1,56 @@
 from tramia.database.conexao import conectar
-from tramia.database.conexao import conectar
 from tramia.models.responsavel import Responsavel
 
-class ResponsavelDAO:   #cria classe
-    def inserir(self, responsavel): #função de inserir obejto "funcionario"responsavel
+
+class ResponsavelDAO:
+    def inserir(self, responsavel):
         conexao = conectar()
-
-        cursor = conexao.cursor()   #objeto responsável por executar a função
-
-        cursor.execute( #insere na tabela USUARIO os valores coletados com os gets
-            """
-            INSERT INTO responsavel(nome, email)
-            VALUES(?,?)
-            """,
-            (
-                responsavel.nome(),
-                responsavel.email()
+        try:
+            cursor = conexao.cursor()
+            cursor.execute(
+                """
+                INSERT INTO responsavel (nome, email)
+                VALUES (?, ?)
+                """,
+                (responsavel.nome, responsavel.email),
             )
-        )
-
-        conexao.commit()    #confirma as operações e transação no banco de dados
-        conexao.close() #finaliza conexao
+            conexao.commit()
+            responsavel.id = cursor.lastrowid
+        finally:
+            conexao.close()
 
     def listar(self):
         conexao = conectar()
-
-        cursor = conexao.cursor()
-
-        cursor.execute( #seleciona os nomes dos responsáveis
-            """
-            SELECT * FROM responsavel    
-            """
-        )
-
-        responsaveis = cursor.fetchall()    #busca todos os nomes selecionados
-
-        conexao.close()
-
-        return [self._para_objeto(linha) for linha in responsaveis]
+        try:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT id, nome, email FROM responsavel")
+            linhas = cursor.fetchall()
+        finally:
+            conexao.close()
+        return [self._para_objeto(linha) for linha in linhas]
 
     def buscarID(self, id):
         conexao = conectar()
-
-        cursor = conexao.cursor()
-
-        cursor.execute( #seleciona todos os funcionarios, enquanto o id seja igual ao informado
-            """
-            SELECT * FROM responsavel
-            WHERE id = ?
-            """,
-            (id,)
-        )
-        
-        responsavel.id = cursor.lastrowid() #coleta o dado
-
-        cursor.close()
-        conexao.close()
-        
-        return responsavel  #devolve id pro responsavel
+        try:
+            cursor = conexao.cursor()
+            cursor.execute(
+                "SELECT id, nome, email FROM responsavel WHERE id = ?",
+                (id,),
+            )
+            linha = cursor.fetchone()
+        finally:
+            conexao.close()
+        return self._para_objeto(linha) if linha else None
 
     def deletar(self, id):
         conexao = conectar()
+        try:
+            cursor = conexao.cursor()
+            cursor.execute("DELETE FROM responsavel WHERE id = ?", (id,))
+            conexao.commit()
+        finally:
+            conexao.close()
 
-        cursor = conexao.cursor()
-
-        cursor.execute(
-            """
-            DELETE FROM responsavel
-            WHERE id = ?
-            """,
-            (id, )
-        )
-
-        conexao.commit()
-        cursor.close()
-        conexao.close()
+    @staticmethod
+    def _para_objeto(linha):
+        return Responsavel(id=linha["id"], nome=linha["nome"], email=linha["email"])

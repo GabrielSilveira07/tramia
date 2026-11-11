@@ -12,11 +12,14 @@ class DemandaDAO:
                 INSERT INTO demanda (titulo, prazo, responsavel_id, status)
                 VALUES (?, ?, ?, ?)
                 """,
-                (demanda.titulo, demanda.prazo, demanda.responsavel_id , demanda.status),
+                (demanda.titulo, demanda.prazo.isoformat(), demanda.responsavel_id , demanda.status),
             )
+            conexao.commit()
+            demanda.id = cursor.lastrowid
         finally:
             conexao.close()
-        pass
+          
+        
 
     def atualizarStatus(self, demanda, prazo, id):
         conexao = conectar()
